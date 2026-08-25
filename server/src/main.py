@@ -3,6 +3,7 @@ import cv2
 import numpy as np
 from ultralytics import YOLO
 
+CLASS_FILTER = [56, 57, 58, 59, 60, 61, 62, 68, 69, 70, 71, 72]
 
 app = FastAPI()
 
@@ -17,7 +18,7 @@ async def create_item(file: UploadFile):
 
     image = cv2.imdecode(file_array, cv2.IMREAD_COLOR)
 
-    predictions = model.predict(image)
+    predictions = model.predict(image, classes=CLASS_FILTER)
 
     predictions_json = predictions[0].to_json()
     return predictions_json
