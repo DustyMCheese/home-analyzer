@@ -30,11 +30,11 @@ npm install
 
 4. Update the .env File of the Backend
    - Make a copy of `server/.env.example` and rename the copy `.env`
-   - Update the value of FRONTEND_URL to the frontend URL with the intended port (E.g., http://localhost:8000)
+   - Update the value of FRONTEND_URL to the frontend URL with the intended port if needed
 
 5. Update the .env File of the Frontend
    - Make a copy of `client/.env.example` and rename the copy `.env`
-   - Update the value of VITE_BACKEND_URL to the backend URL with the intended port (E.g., http://localhost:5173)
+   - Update the value of VITE_BACKEND_URL to the backend URL with the intended port if needed
 
 # Starting the Application
 
