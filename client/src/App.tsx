@@ -1,7 +1,7 @@
-import ImageForm from "./components/ImageForm";
+import ImageAnalyzer from "./components/ImageAnalyzer";
 
 const App = () => {
-  return <ImageForm></ImageForm>;
+  return <ImageAnalyzer></ImageAnalyzer>;
 };
 
 export default App;

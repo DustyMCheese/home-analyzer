@@ -7,6 +7,10 @@ type FormFields = {
   image: FileList;
 };
 
+interface Props {
+  saveForm: (file: File) => void;
+}
+
 async function sendImage(image: FileList) {
   const formData = new FormData();
   formData.append("file", image[0]);
@@ -22,13 +26,18 @@ async function sendImage(image: FileList) {
   return response.json();
 }
 
-const ImageForm = () => {
+const ImageForm = ({ saveForm }: Props) => {
   const { register, handleSubmit } = useForm<FormFields>();
-  const { mutate } = useMutation({ mutationFn: sendImage });
+  const { mutate } = useMutation({
+    mutationFn: sendImage,
+    onSuccess: (_data, variables) => {
+      saveForm(variables[0]);
+    },
+  });
 
   return (
     <form
-      className="flex flex-col items-center justify-center p-4"
+      className="flex flex-col items-center justify-center p-4 w-1/2"
       onSubmit={handleSubmit((data) => {
         mutate(data.image);
       })}
