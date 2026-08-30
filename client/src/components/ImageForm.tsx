@@ -37,14 +37,13 @@ const ImageForm = ({ saveForm }: Props) => {
 
   return (
     <form
-      className="flex flex-col items-center justify-center p-4 w-1/2"
+      className="flex flex-col items-center justify-center m-4 w-full"
       onSubmit={handleSubmit((data) => {
         mutate(data.image);
       })}
     >
       <label htmlFor="home-image-upload" className="w-full">
-        Photo Of Home:
-        <div className="flex items-center justify-center border-2 w-full h-128 rounded">
+        <div className="flex items-center justify-center border-2 m-4 h-128 rounded">
           Click to Select a File to Upload
         </div>
       </label>
