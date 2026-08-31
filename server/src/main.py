@@ -54,7 +54,8 @@ async def create_item(file: UploadFile):
             raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_CONTENT, detail="Corrupted or unsupported Image")
 
         predictions = model.predict(image, classes=CLASS_FILTER) 
-        predictions_json = predictions[0].to_json()
+        # Converting the predictions to a dictionary to allow FastAPI to convert to JSON
+        predictions_json = predictions[0].summary()
         return predictions_json
     except ValueError:
         logger.exception("Invalid Image")
