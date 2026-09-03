@@ -1,5 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
+import type { Furniture } from "./types";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -8,7 +9,8 @@ type FormFields = {
 };
 
 interface Props {
-  saveForm: (file: File) => void;
+  saveImage: (file: File) => void;
+  saveAnalyzedData: (result: Furniture[]) => void;
 }
 
 async function sendImage(image: FileList) {
@@ -26,12 +28,14 @@ async function sendImage(image: FileList) {
   return response.json();
 }
 
-const ImageForm = ({ saveForm }: Props) => {
+const ImageForm = ({ saveImage, saveAnalyzedData }: Props) => {
   const { register, handleSubmit } = useForm<FormFields>();
   const { mutate } = useMutation({
     mutationFn: sendImage,
-    onSuccess: (_data, variables) => {
-      saveForm(variables[0]);
+    onSuccess: (data, variables) => {
+      // Saving the File object of the image to help display it
+      saveImage(variables[0]);
+      saveAnalyzedData(data);
     },
   });
 
