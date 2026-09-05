@@ -1,7 +1,7 @@
 import { useState } from "react";
 import ImageForm from "./ImageForm";
-import ImageDisplay from "./ImageDisplay";
 import type { Furniture } from "./types";
+import AnnotatedImage from "./AnnotatedImage";
 
 const ImageAnalyzer = () => {
   const [image, setImage] = useState<File | null>(null);
@@ -13,7 +13,10 @@ const ImageAnalyzer = () => {
         saveImage={setImage}
         saveAnalyzedData={setAnalyzedData}
       ></ImageForm>
-      <ImageDisplay image={image} analyzedData={analyzedData}></ImageDisplay>
+      <AnnotatedImage
+        image={image}
+        analyzedData={analyzedData}
+      ></AnnotatedImage>
     </section>
   );
 };
