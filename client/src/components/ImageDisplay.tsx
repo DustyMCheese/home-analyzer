@@ -63,7 +63,7 @@ const ImageDisplay = ({ image, analyzedData, saveHoveredDetails }: Props) => {
       ))}
     </div>
   ) : (
-    <div className="flex items-center justify-center border-2 m-4 w-1/2 h-128 rounded">
+    <div className="m-4 flex h-128 w-1/2 items-center justify-center rounded border-2">
       Uploaded Image Appears Here
     </div>
   );

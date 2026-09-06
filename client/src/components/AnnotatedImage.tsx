@@ -11,7 +11,7 @@ interface Props {
 const AnnotatedImage = ({ image, analyzedData }: Props) => {
   const [hoveredDetails, setHoveredDetails] = useState<Furniture | null>(null);
   return (
-    <figure className="flex justify-evenly w-1/2 h-auto m-4">
+    <figure className="m-4 flex h-auto w-1/2 justify-evenly">
       <ImageDisplay
         image={image}
         analyzedData={analyzedData}
