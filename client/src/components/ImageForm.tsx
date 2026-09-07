@@ -50,7 +50,7 @@ const ImageForm = ({ saveImage, saveAnalyzedData }: Props) => {
         htmlFor="home-image-upload"
         className="w-full hover:cursor-pointer"
       >
-        <div className="m-4 flex h-128 items-center justify-center rounded border-2 bg-gray-100 hover:bg-gray-200">
+        <div className="m-4 flex h-64 items-center justify-center rounded border-2 bg-gray-100 text-center hover:bg-gray-200 md:h-128">
           Click to Select a File to Upload
         </div>
       </label>
@@ -62,7 +62,7 @@ const ImageForm = ({ saveImage, saveAnalyzedData }: Props) => {
       />
       <button
         type="submit"
-        className="mt-4 w-1/4 rounded bg-gray-400 p-4 hover:cursor-pointer hover:bg-gray-500"
+        className="mt-4 w-1/2 rounded bg-gray-400 p-4 hover:cursor-pointer hover:bg-gray-500 md:w-1/4"
       >
         Submit
       </button>
