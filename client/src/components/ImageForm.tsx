@@ -41,13 +41,16 @@ const ImageForm = ({ saveImage, saveAnalyzedData }: Props) => {
 
   return (
     <form
-      className="m-4 flex w-full flex-col items-center justify-center"
+      className="m-4 flex w-2/3 flex-col items-center justify-center"
       onSubmit={handleSubmit((data) => {
         mutate(data.image);
       })}
     >
-      <label htmlFor="home-image-upload" className="w-full">
-        <div className="m-4 flex h-128 items-center justify-center rounded border-2">
+      <label
+        htmlFor="home-image-upload"
+        className="w-full hover:cursor-pointer"
+      >
+        <div className="m-4 flex h-128 items-center justify-center rounded border-2 bg-gray-100 hover:bg-gray-200">
           Click to Select a File to Upload
         </div>
       </label>
@@ -57,7 +60,10 @@ const ImageForm = ({ saveImage, saveAnalyzedData }: Props) => {
         id="home-image-upload"
         className="hidden"
       />
-      <button type="submit" className="mt-4 w-1/4 bg-gray-400 p-4">
+      <button
+        type="submit"
+        className="mt-4 w-1/4 rounded bg-gray-400 p-4 hover:cursor-pointer hover:bg-gray-500"
+      >
         Submit
       </button>
     </form>
