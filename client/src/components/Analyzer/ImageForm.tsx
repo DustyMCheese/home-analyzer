@@ -41,7 +41,7 @@ const ImageForm = ({ saveImage, saveAnalyzedData }: Props) => {
 
   return (
     <form
-      className="m-4 flex w-2/3 flex-col items-center justify-center"
+      className="m-4 flex w-1/2 flex-col items-center justify-center"
       onSubmit={handleSubmit((data) => {
         mutate(data.image);
       })}
