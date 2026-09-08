@@ -1,4 +1,4 @@
-import ImageAnalyzer from "./components/ImageAnalyzer";
+import ImageAnalyzer from "./components/Analyzer/ImageAnalyzer";
 
 const App = () => {
   return <ImageAnalyzer></ImageAnalyzer>;
