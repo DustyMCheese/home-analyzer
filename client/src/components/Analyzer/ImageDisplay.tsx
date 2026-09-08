@@ -27,7 +27,7 @@ const ImageDisplay = ({ image, analyzedData, saveHoveredDetails }: Props) => {
   }, [image]);
 
   return image_url !== "" ? (
-    <div className="relative w-2/3">
+    <div className="relative w-3/4">
       <img
         src={image_url}
         alt="Image of Home"

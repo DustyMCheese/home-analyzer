@@ -8,7 +8,7 @@ const ImageAnalyzer = () => {
   const [analyzedData, setAnalyzedData] = useState<Furniture[]>([]);
 
   return (
-    <section className="flex flex-col items-center justify-center">
+    <section className="flex flex-col items-center justify-center lg:flex-row">
       <ImageForm
         saveImage={setImage}
         saveAnalyzedData={setAnalyzedData}
