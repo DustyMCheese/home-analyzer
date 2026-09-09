@@ -66,6 +66,12 @@ const ImageForm = ({ saveImage, saveAnalyzedData }: Props) => {
       >
         Submit
       </button>
+      <p className="m-2 text-xs text-gray-500">
+        Note: All images uploaded are processed and displayed for this session
+        and not stored. Since this is a personal project, there are no
+        guarantees about the performance, reliability or service provided. Use
+        this tool responsibly.
+      </p>
     </form>
   );
 };
