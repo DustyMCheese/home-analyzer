@@ -1,4 +1,5 @@
 import ImageAnalyzer from "./components/Analyzer/ImageAnalyzer";
+import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
 
 const App = () => {
@@ -6,6 +7,7 @@ const App = () => {
     <>
       <Header></Header>
       <ImageAnalyzer></ImageAnalyzer>
+      <Footer></Footer>
     </>
   );
 };
