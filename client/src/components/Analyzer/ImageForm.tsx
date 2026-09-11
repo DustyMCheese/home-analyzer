@@ -50,8 +50,11 @@ const ImageForm = ({ saveImage, saveAnalyzedData }: Props) => {
         htmlFor="home-image-upload"
         className="w-full hover:cursor-pointer"
       >
-        <div className="m-4 flex h-64 items-center justify-center rounded border-2 bg-gray-100 text-center hover:bg-gray-200 lg:h-128">
-          Click to Select a File to Upload
+        <div className="m-4 flex h-64 flex-col items-center justify-center rounded border-2 bg-gray-100 p-4 text-center hover:bg-gray-200 lg:h-128">
+          <p className="mb-3">Click to Select a File to Upload</p>
+          <p className="text-xs text-gray-500">
+            (Only PNG and JPEG files with max size of 10MB)
+          </p>
         </div>
       </label>
       <input
