@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import type { Furniture } from "./types";
+import ErrorMessage from "./ErrorMessage";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -22,7 +23,7 @@ async function sendImage(image: FileList) {
   });
 
   if (!response.ok) {
-    throw new Error("Server Error" + response.status);
+    throw new Error("POST Request Error: " + response.status);
   }
 
   return response.json();
@@ -30,7 +31,7 @@ async function sendImage(image: FileList) {
 
 const ImageForm = ({ saveImage, saveAnalyzedData }: Props) => {
   const { register, handleSubmit } = useForm<FormFields>();
-  const { mutate } = useMutation({
+  const { mutate, error: mutateError } = useMutation({
     mutationFn: sendImage,
     onSuccess: (data, variables) => {
       // Saving the File object of the image to help display it
@@ -63,6 +64,9 @@ const ImageForm = ({ saveImage, saveAnalyzedData }: Props) => {
         id="home-image-upload"
         className="hidden"
       />
+      {mutateError ? (
+        <ErrorMessage serverErrorMessage={mutateError.message}></ErrorMessage>
+      ) : null}
       <button
         type="submit"
         className="mt-4 w-1/2 rounded bg-gray-400 p-4 hover:cursor-pointer hover:bg-gray-500 md:w-1/4"
