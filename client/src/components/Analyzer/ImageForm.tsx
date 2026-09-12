@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import type { Furniture } from "./types";
+import ErrorMessage from "./ErrorMessage";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -22,7 +23,7 @@ async function sendImage(image: FileList) {
   });
 
   if (!response.ok) {
-    throw new Error("Server Error" + response.status);
+    throw new Error("POST Request Error: " + response.status);
   }
 
   return response.json();
@@ -30,7 +31,7 @@ async function sendImage(image: FileList) {
 
 const ImageForm = ({ saveImage, saveAnalyzedData }: Props) => {
   const { register, handleSubmit } = useForm<FormFields>();
-  const { mutate } = useMutation({
+  const { mutate, error: mutateError } = useMutation({
     mutationFn: sendImage,
     onSuccess: (data, variables) => {
       // Saving the File object of the image to help display it
@@ -50,8 +51,11 @@ const ImageForm = ({ saveImage, saveAnalyzedData }: Props) => {
         htmlFor="home-image-upload"
         className="w-full hover:cursor-pointer"
       >
-        <div className="m-4 flex h-64 items-center justify-center rounded border-2 bg-gray-100 text-center hover:bg-gray-200 lg:h-128">
-          Click to Select a File to Upload
+        <div className="m-4 flex h-64 flex-col items-center justify-center rounded border-2 bg-gray-100 p-4 text-center hover:bg-gray-200 lg:h-128">
+          <p className="mb-3">Click to Select a File to Upload</p>
+          <p className="text-xs text-gray-500">
+            (Only PNG and JPEG files with max size of 10MB)
+          </p>
         </div>
       </label>
       <input
@@ -60,6 +64,9 @@ const ImageForm = ({ saveImage, saveAnalyzedData }: Props) => {
         id="home-image-upload"
         className="hidden"
       />
+      {mutateError ? (
+        <ErrorMessage serverErrorMessage={mutateError.message}></ErrorMessage>
+      ) : null}
       <button
         type="submit"
         className="mt-4 w-1/2 rounded bg-gray-400 p-4 hover:cursor-pointer hover:bg-gray-500 md:w-1/4"

@@ -28,6 +28,13 @@ model = YOLO("yolo26n.pt")
 
 logger = logging.getLogger(__name__)
 
+# A class inheriting from HTTPException that represents an Exception that arises after 
+# the program detects that the content provided is unprocessable
+class UnprocessableContentException(HTTPException):
+    def __init__(self, detail=None, headers=None):
+        super().__init__(status.HTTP_422_UNPROCESSABLE_CONTENT, detail, headers)
+
+
 @app.post("/upload/")
 async def create_item(file: UploadFile):
     # Checking to make sure only supported file types of png and jpeg are accepted
@@ -51,15 +58,15 @@ async def create_item(file: UploadFile):
         image = cv2.imdecode(file_array, cv2.IMREAD_COLOR)
         # Making sure that OpenCV is successful to prevent invalid images from being used for predictions
         if image is None:
-            raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_CONTENT, detail="Corrupted or unsupported Image")
+            raise UnprocessableContentException()
 
         predictions = model.predict(image, classes=CLASS_FILTER) 
         # Converting the predictions to a dictionary to allow FastAPI to convert to JSON
         predictions_json = predictions[0].summary()
-        return predictions_json
-    except ValueError:
+        return predictions_json        
+    except UnprocessableContentException:
         logger.exception("Invalid Image")
-        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_CONTENT, detail=f"Invalid Image")
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_CONTENT, detail=f"Corrupted or unsupported image")
     except Exception:
         logger.exception("Server Failure")
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Server Failure")
