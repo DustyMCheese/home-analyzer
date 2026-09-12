@@ -5,6 +5,8 @@ import ErrorMessage from "./ErrorMessage";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
+const MAX_FILE_SIZE = 10485760;
+
 type FormFields = {
   image: FileList;
 };
@@ -30,7 +32,11 @@ async function sendImage(image: FileList) {
 }
 
 const ImageForm = ({ saveImage, saveAnalyzedData }: Props) => {
-  const { register, handleSubmit } = useForm<FormFields>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormFields>();
   const { mutate, error: mutateError } = useMutation({
     mutationFn: sendImage,
     onSuccess: (data, variables) => {
@@ -59,12 +65,26 @@ const ImageForm = ({ saveImage, saveAnalyzedData }: Props) => {
         </div>
       </label>
       <input
-        {...register("image")}
+        {...register("image", {
+          required: { value: true, message: "File is required" },
+          validate: (file: FileList) => {
+            if (file[0].type !== "image/png" && file[0].type !== "image/jpeg") {
+              return "Invalid file type";
+            } else if (file[0].size > MAX_FILE_SIZE) {
+              return "File is too large";
+            }
+            return true;
+          },
+        })}
         type="file"
         id="home-image-upload"
         className="hidden"
       />
-      {mutateError ? (
+      {errors.image ? (
+        <p className="text-red-500">{errors.image.message}</p>
+      ) : null}
+      {/* Only display a server error when no client error is displayed as client errors represent the most recent issue */}
+      {mutateError && errors.image === undefined ? (
         <ErrorMessage serverErrorMessage={mutateError.message}></ErrorMessage>
       ) : null}
       <button
