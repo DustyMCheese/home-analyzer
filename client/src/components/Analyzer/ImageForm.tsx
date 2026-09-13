@@ -1,11 +1,19 @@
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import type { Furniture } from "./types";
-import ErrorMessage from "./ErrorMessage";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 const MAX_FILE_SIZE = 10485760;
+
+// Dictionary used to translate server errors to messages for the user
+const serverErrors = new Map([
+  ["POST Request Error: 413", "Uploaded file is too large"],
+  ["POST Request Error: 415", "Unsupported file type"],
+  ["POST Request Error: 422", "JPEG or PNG does not contain a valid image"],
+  ["POST Request Error: 500", "A server error occurred. Please try again."],
+  ["Failed to fetch", "Server currently unavailable. Try again later."],
+]);
 
 type FormFields = {
   image: FileList;
@@ -35,9 +43,10 @@ const ImageForm = ({ saveImage, saveAnalyzedData }: Props) => {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<FormFields>();
-  const { mutate, error: mutateError } = useMutation({
+  const { mutate } = useMutation({
     mutationFn: sendImage,
     onSuccess: (data, variables) => {
       // Saving the File object of the image to help display it
@@ -50,7 +59,11 @@ const ImageForm = ({ saveImage, saveAnalyzedData }: Props) => {
     <form
       className="m-4 flex w-1/2 flex-col items-center justify-center lg:w-1/3"
       onSubmit={handleSubmit((data) => {
-        mutate(data.image);
+        mutate(data.image, {
+          onError: (error) => {
+            setError("image", { message: serverErrors.get(error.message) });
+          },
+        });
       })}
     >
       <label
@@ -82,10 +95,6 @@ const ImageForm = ({ saveImage, saveAnalyzedData }: Props) => {
       />
       {errors.image ? (
         <p className="text-red-500">{errors.image.message}</p>
-      ) : null}
-      {/* Only display a server error when no client error is displayed as client errors represent the most recent issue */}
-      {mutateError && errors.image === undefined ? (
-        <ErrorMessage serverErrorMessage={mutateError.message}></ErrorMessage>
       ) : null}
       <button
         type="submit"
