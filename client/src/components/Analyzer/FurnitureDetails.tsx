@@ -6,7 +6,7 @@ interface Props {
 
 const Annotations = ({ hoveredDetails }: Props) => {
   return (
-    <figcaption className="mt-4 mb-8 flex h-auto lg:w-1/4">
+    <figcaption className="mt-4 mb-8 flex h-auto min-h-16">
       {hoveredDetails ? (
         <ul>
           <li className="text-base">Furniture Name: {hoveredDetails.name}</li>
