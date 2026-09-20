@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import type { Furniture } from "./types";
+import SubmittingModal from "./SubmittingModal";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -46,7 +47,7 @@ const ImageForm = ({ saveImage, saveAnalyzedData }: Props) => {
     setError,
     formState: { errors },
   } = useForm<FormFields>();
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: sendImage,
     onSuccess: (data, variables) => {
       // Saving the File object of the image to help display it
@@ -108,6 +109,7 @@ const ImageForm = ({ saveImage, saveAnalyzedData }: Props) => {
         guarantees about the performance, reliability or service provided. Use
         this tool responsibly.
       </p>
+      {isPending ? <SubmittingModal></SubmittingModal> : null}
     </form>
   );
 };
