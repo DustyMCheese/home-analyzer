@@ -19,8 +19,14 @@ const SubmittingModal = () => {
         Warning: Due to the use of free hosting, the server may take up to a few
         minutes to process the input
       </p>
-      <p className="mb-8">Feel free to watch this video demo while you wait:</p>
-      <p>Thank you for your understanding</p>
+      <p>Feel free to watch this video demo while you wait:</p>
+      <a
+        href="https://www.youtube.com/watch?v=Fkx8sq4knFY"
+        className="text-yellow-500 underline"
+      >
+        Press here to Watch on Youtube
+      </a>
+      <p className="mt-8">Thank you for your understanding</p>
     </dialog>
   );
 };
