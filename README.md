@@ -1,6 +1,12 @@
 # home-analyzer
 
-This app analyzes videos or images of a home to check the furnishing and decorations present to give insights to help users quickly find, furnish or advertise a home. By analyzing videos or images provided by the user, the app is able to find the number of each furniture and decorations present in the home.
+This app analyzes an image of a home and displays the image of the home with its furniture highlighted. Users can hover over the highlighted regions to get more information about the analysis of a furniture.
+
+# Demo
+
+The following is a video demonstration of the main features of Home Analyzer, including how to upload images and see analyzed results:
+
+[Home Analyzer Demonstration Video](https://img.youtube.com/vi/Fkx8sq4knFY)
 
 # Installation and Setup
 
@@ -69,3 +75,13 @@ Example:
 cd client
 npm run dev -- --port 5173
 ```
+
+# Upcoming Features
+
+- Adding analyzed results to a summary
+- Downloading the a summary of results
+- Disputing analyzed results before adding to summary
+
+# License
+
+Home Analyzer is licensed under GNU Affero General Public License (AGPL-3.0). See [LICENSE](./LICENSE) for more information.
