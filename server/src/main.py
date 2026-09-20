@@ -1,4 +1,5 @@
 from fastapi import FastAPI, UploadFile, HTTPException, status
+from pydantic import BaseModel, Field
 from fastapi.middleware.cors import CORSMiddleware
 import cv2
 import numpy as np
@@ -12,7 +13,11 @@ CLASS_FILTER = [56, 57, 58, 59, 60, 61, 62, 68, 69, 70, 71, 72]
 ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/png"]
 MAX_FILE_SIZE = 10485760
 
-app = FastAPI()
+app = FastAPI(title="Home Analyzer", 
+              description="Backend of Home Analyzer which locates and identifies furniture in an image.", 
+              contact={"name": "Robert Wang", "url": "https://dustymcheese.github.io/personal-website/"}, 
+              license_info={"name": "GNU Affero General Public License", "url": "https://www.gnu.org/licenses/agpl-3.0.en.html"})
+
 # Allowing the frontend URL stored in .env to access this backend
 load_dotenv()
 frontend_url = os.getenv("FRONTEND_URL")
@@ -28,6 +33,22 @@ model = YOLO("yolo26n.pt")
 
 logger = logging.getLogger(__name__)
 
+class Box(BaseModel):
+    x1: float
+    y1: float
+    x2: float
+    y2: float
+
+class Analysis(BaseModel):
+    name: str
+    # Naming class as attribute furnitureClass with the alias class because class is a reserved keyword in Python
+    furnitureClass: int = Field(alias="class")
+    confidence: float
+    box: Box
+
+class Error(BaseModel):
+    detail: str
+
 # A class inheriting from HTTPException that represents an Exception that arises after 
 # the program detects that the content provided is unprocessable
 class UnprocessableContentException(HTTPException):
@@ -35,8 +56,10 @@ class UnprocessableContentException(HTTPException):
         super().__init__(status.HTTP_422_UNPROCESSABLE_CONTENT, detail, headers)
 
 
-@app.post("/upload/")
-async def create_item(file: UploadFile):
+@app.post("/upload/", response_model=list[Analysis], responses={415: {"model": Error}, 413: {"model": Error}, 422: {"model": Error}, 500: {"model": Error}})
+async def analyze_item(file: UploadFile):
+    """Locate and identify furniture in an uploaded image.
+    """
     # Checking to make sure only supported file types of png and jpeg are accepted
     if file.content_type not in ACCEPTED_IMAGE_TYPES:
         raise HTTPException(status_code=status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
