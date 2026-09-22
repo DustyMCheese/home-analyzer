@@ -10,7 +10,9 @@ const Annotations = ({ hoveredDetails }: Props) => {
       {hoveredDetails ? (
         <ul>
           <li className="text-base">Furniture Name: {hoveredDetails.name}</li>
-          <li className="text-base">Confidence: {hoveredDetails.confidence}</li>
+          <li className="text-base">
+            Confidence: {hoveredDetails.confidence + "/1"}
+          </li>
         </ul>
       ) : (
         <p className="text-base">Hover over a box to get an analysis</p>
