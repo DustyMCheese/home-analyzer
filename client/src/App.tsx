@@ -1,4 +1,4 @@
-import ImageAnalyzer from "./components/Analyzer/ImageAnalyzer";
+import Main from "./components/Main/Main";
 import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
 
@@ -6,7 +6,7 @@ const App = () => {
   return (
     <>
       <Header></Header>
-      <ImageAnalyzer></ImageAnalyzer>
+      <Main></Main>
       <Footer></Footer>
     </>
   );
