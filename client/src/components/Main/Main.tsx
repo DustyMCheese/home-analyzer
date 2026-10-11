@@ -1,5 +1,6 @@
 import { useState } from "react";
 import ImageAnalyzer from "./Analyzer/ImageAnalyzer";
+import Summary from "./Summary/Summary";
 
 const Main = () => {
   const [furnitureFrequencies, setFurnitureFrequencies] = useState<
@@ -12,6 +13,7 @@ const Main = () => {
         furnitureFrequencies={furnitureFrequencies}
         setFurnitureFrequencies={setFurnitureFrequencies}
       ></ImageAnalyzer>
+      <Summary furnitureFrequencies={furnitureFrequencies}></Summary>
     </main>
   );
 };
